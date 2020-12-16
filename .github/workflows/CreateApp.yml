@@ -30,6 +30,8 @@ jobs:
       run: sudo apt install jq
 
     - name: Save revision and branch
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       run: |
         echo "::set-env name=SHORT_REV::$(git rev-parse --short HEAD)"
         echo "::set-env name=LONG_REV::$(git rev-parse HEAD)"
@@ -43,6 +45,7 @@ jobs:
     - name: Setup build type
       run: echo "::set-env name=BUILD_TYPE::debug"
       env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         BUILD_TYPE: release
 
 
@@ -61,9 +64,13 @@ jobs:
       run: cordova build android --${BUILD_TYPE}
 
     - name: Create env variable APP_VERSION
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       run: echo "::set-env name=APP_VERSION::$(cat package.json | jq -r '.version')"
 
     - name: Create env variable APP_NAME
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       run: echo "::set-env name=APP_NAME::cordova-onesignal-${BUILD_TYPE}-${SHORT_REV}.apk"
 
 
