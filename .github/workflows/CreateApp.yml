@@ -2,8 +2,7 @@ name: Build the app
 
 
 on:
-  watch:
-    types: [started]
+  workflow_dispatch:
 
 
 
